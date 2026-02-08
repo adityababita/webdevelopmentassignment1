@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Event Dashboard</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #6dd5ed, #2193b0);
+    }
+
+    h1 {
+        text-align: center;
+        color: white;
+        margin-top: 20px;
+    }
+
+    .container {
+        max-width: 1000px;
+        margin: 50px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        
+    }
+
+    .form-box {
+        width: 30%;
+        background:#f4f7ff;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .form-box h3 {
+        margin-bottom: 10px;
+       color:#3b5bdb; 
+    }
+
+    label {
+        font-size: 16px;
+        display: block;
+        margin-top: 10px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        margin-top: 15px;
+        width: 100%;
+        padding: 10px;
+        background: #544cf5;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        
+    }
+
+    .events-box {
+        width: 70%;
+        background: #f8f9ff;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .top-buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 15px;
+    }
+
+    .top-buttons button {
+        width: 48%;
+    }
+
+    .event-list {
+        display: flex;
+        gap: 15px;
+        flex-wrap: wrap;
+    }
+
+    .card {
+        background: white;
+        width: 45%;
+        padding: 15px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        position: relative;
+    }
+
+    .card span {
+        font-size: 12px;
+        background: #e7f5ff;
+        padding: 3px 8px;
+        border-radius: 5px;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    .delete {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .dom-box {
+        max-width: 1100px;
+        margin: 20px auto;
+        background: white;
+        padding: 15px;
+        border-radius: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>🎯 Smart Event Dashboard</h1>
+
+<div class="container">
+    <div class="form-box">
+        <h3>Add New Event</h3>
+
+        <label>Event Title:</label>
+        <input type="text" id="title">
+
+        <label>Event Date:</label>
+        <input type="date" id="date">
+
+        <label>Category:</label>
+        <select id="category">
+            <option>Conference</option>
+            <option>Workshop</option>
+            <option>Webinar</option>
+            <option>Social</option>
+        </select>
+
+        <label>Description:</label>
+        <textarea id="desc"></textarea>
+
+        <button onclick="addEvent()">Add Event</button>
+    </div>
+
+    <div class="events-box">
+        <h3>My Events</h3>
+
+        <div class="top-buttons">
+            <button onclick="clearEvents()">Clear All Events</button>
+            <button onclick="addSample()">Add Sample Events</button>
+        </div>
+
+        <div class="event-list" id="events"></div>
+    </div>
+</div>
+
+<div class="dom-box">
+    <h3>DOM Manipulation Demo</h3>
+    <p id="keyText">press any key to see the difference:</p>
+</div>
+
+<script>
+    const eventsDiv = document.getElementById("events");
+
+    function createCard(title, date, category, desc) {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        card.innerHTML = `
+            <button class="delete">×</button>
+            <h4>${title}</h4>
+            <p>📅 ${date}</p>
+            <span>${category}</span>
+            <p>${desc}</p>
+        `;
+
+        card.querySelector(".delete").onclick = () => card.remove();
+        eventsDiv.appendChild(card);
+    }
+
+    function addEvent() {
+        let title = document.getElementById("title").value;
+        let date = document.getElementById("date").value;
+        let category = document.getElementById("category").value;
+        let desc = document.getElementById("desc").value;
+
+        if (title && date && desc) {
+            createCard(title, date, category, desc);
+        }
+    }
+
+    function clearEvents() {
+        eventsDiv.innerHTML = "";
+    }
+
+    function addSample() {
+        clearEvents();
+        createCard(
+            "Web Development Conference",
+            "2026-02-15",
+            "Conference",
+            "Annual conference on modern web technologies."
+        );
+
+        createCard(
+            "JavaScript Workshop",
+            "2026-02-20",
+            "Workshop",
+            "Hands-on JavaScript learning session."
+        );
+
+        createcard(
+            "Live Webinar",
+            "2026-04-15",
+            "Webinar",
+            "interacting session."
+        )
+    }
+
+    document.addEventListener("keydown", function(event) {
+        document.getElementById("keyText").innerText = "You Pressed: " + event.key;
+    });
+</script>
+
+</body>
+</html>
